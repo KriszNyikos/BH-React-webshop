@@ -15,8 +15,9 @@ class UpdateProductController {
       const exactPath = path.resolve('uploads')
       const product = await this.productService.findBySku(sku)
       const imagesPath = await this.productService.imgsBySku(sku)
+      const stock = await this.productService.stockStatus(sku)
       imagesPath.forEach(path => { path.realPath = exactPath + path.imagePath })
-      res.json({ "product": product, "imagesPath": imagesPath })
+      res.json({ "product": product, "imagesPath": imagesPath, "stock": stock })
       return
     }
     res.json({ error: 'product is not exist' })

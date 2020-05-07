@@ -11,6 +11,7 @@ export default class UpdateProduct extends React.Component {
         this.state = {
             products: false,
             images: false,
+            stock: false,
             redirect: false
         }
         this.download = this.download.bind(this)
@@ -42,7 +43,8 @@ export default class UpdateProduct extends React.Component {
         const resJsonDetails = await resDetails.json();
         this.setState((state, props) => {
             return (state.products = resJsonDetails.product,
-                state.images = resJsonDetails.imagesPath)
+                state.images = resJsonDetails.imagesPath,
+                state.stock = resJsonDetails.stock)
         })
         console.log(this.state.images)
     }
@@ -53,7 +55,7 @@ export default class UpdateProduct extends React.Component {
         return (
             <div>
                 {this.state.redirect ? <Redirect to="/products"/> : ""}
-                {this.state.products ? <UpdateProductForm data={this.state.products} deleteAll={this.deleteAll}/> : ''}
+                {this.state.products ? <UpdateProductForm data={this.state.products} stock={this.state.stock} deleteAll={this.deleteAll}/> : ''}
                 {this.state.images ? <UpdateProductImages data={this.state.images} sku={this.props.match.params.sku}/> : <div>Pictures are unavailable</div>}
             </div>
         )

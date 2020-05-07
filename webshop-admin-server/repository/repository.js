@@ -205,9 +205,33 @@ class Repository {
   }
 
 
-  updateStock(state){
-   const {stock, warn_at, sku} = state
+  updateStock(storeStatus){
+   const {stock, warn_at, sku} = storeStatus
     console.log('Updatestock, ',stock, warn_at)
+    
+    db.serialize(function () {
+      let sql = `UPDATE inventory
+                    SET quantity = ?,
+                    warn_at = ?,
+                    WHERE sku = ? `
+      let params = [stock, warn_at, sku]
+      db.run(sql, params)
+    })
+  }
+
+  getStockStatus(sku){
+    return new Promise((resolve, reject) => {
+      db.serialize(function () {
+        db.get("Select quantity, warn_at FROM inventory WHERE sku = ?", sku, (err, result) => {
+          if (err) {
+            console.log(err)
+            reject(err)
+          }
+          console.log(result)
+          resolve(result)
+        })
+      })
+    })
   }
 }
 

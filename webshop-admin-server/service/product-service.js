@@ -13,6 +13,7 @@ class ProductService {
 
     async findBySku(sku) {
         const result = await this.repository.productBySku(sku)
+        this.repository.getStockStatus(sku)
         return result
     }
 
@@ -70,6 +71,11 @@ class ProductService {
 
     delProduct(sku){
         this.repository.deleteBySku(sku)
+    }
+
+   async stockStatus(sku){
+        return await this.repository.getStockStatus(sku)
+       // return stock
     }
 }
 

@@ -13,8 +13,8 @@ export default class UpdateProductForm extends React.Component {
             price: this.props.data.price,
             description: this.props.data.description,
             specs: this.props.data.specs,
-            stock: this.props.data.stock,
-            warn_at: this.props.data.warn_at,
+            stock: this.props.stock.quantity,
+            warn_at: this.props.stock.warn_at,
             error: false,
             deleteModalShow: false
         }
@@ -121,7 +121,7 @@ export default class UpdateProductForm extends React.Component {
                                     </Col>
                                     <Col sm={4}>
                                     <Form.Label>Current stock</Form.Label>
-                                        <Form.Control type="number" name="stock" ref={this.stock} />
+                                        <Form.Control type="number" name="stock" defaultValue={this.props.stock.quantity} ref={this.stock} />
                                     </Col>
                                 </Row>
                                 <br />
@@ -132,7 +132,7 @@ export default class UpdateProductForm extends React.Component {
                                     </Col>
                                     <Col sm={4}>
                                         <Form.Label>Warning at</Form.Label>
-                                        <Form.Control type="number" name="warn_at" ref={this.warn_at} />
+                                        <Form.Control type="number" name="warn_at" defaultValue={this.props.stock.warn_at} ref={this.warn_at} />
                                     </Col>
                                 </Row>
                                 <br />
