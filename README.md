@@ -166,24 +166,3 @@ mind az adatbázisból, mind a fájlrendszerről!
 
 # Inventory management
 
-## Készlet megadása (`stock-management`)
-
-Egészítsük ki az Update Product képernyőn az űrlapot két mezővel:
-- Current stock: szám, az aktuális készlet
-- Warning at: szám, egy határérték, amely alatt jelez a rendszer, hogy az áru fogyóban van
-
-Mindkét szám 0 vagy pozitív szám lehet.
-
-![](./inventory-update-product.png)
-
-## Készlet kijelzése (`show-stocks`)
-
-Egészítsük ki a Product List képernyőt egy készletet jelző oszloppal.
-
-Ha a készlet a megadott határérték alatt van, a termék sora
-legyen sárgás árnyalatú. Ha a termék kifogyott, legyen piros
-árnyalatú. Ha a határértéket nullára állítottk be, az azt
-jelenti, hogy nincs figyelmeztetés, a termék piros lesz, amint
-kifogyott.
-
-![](./inventory-products.png)
