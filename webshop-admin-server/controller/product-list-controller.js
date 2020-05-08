@@ -5,10 +5,11 @@ class ProductListController {
     }
 
     async products(req, res) {
-        const productsArr = await this.productService.productsAll();
-        setTimeout(() => {
-            res.json({ products: productsArr })
-        }, 5000);
+        let productsArr = await this.productService.productsAll();
+            setTimeout(() => {
+                res.json({ products: productsArr })
+            }, 2000);
+ 
     }
 
 }

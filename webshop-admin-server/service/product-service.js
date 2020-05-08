@@ -7,13 +7,12 @@ class ProductService {
     }
 
     async productsAll() {
-        const result = await this.repository.productsAll();
+        let result = await this.repository.productsAll();
         return result;
     }
 
     async findBySku(sku) {
         const result = await this.repository.productBySku(sku)
-        this.repository.getStockStatus(sku)
         return result
     }
 

@@ -7,7 +7,7 @@ class Repository {
   async productsAll() {
     const prods = new Promise((resolve, reject) => {
       db.serialize(function () {
-        db.all("SELECT sku, name, price FROM products", (err, results) => {
+        db.all("SELECT p.sku, p.name, p.price, i.quantity, i.warn_at FROM products p INNER JOIN inventory i ON p.sku = i.sku", (err, results) => {
           if (err) {
            // console.log(err)
             reject(err)
@@ -212,7 +212,7 @@ class Repository {
     db.serialize(function () {
       let sql = `UPDATE inventory
                     SET quantity = ?,
-                    warn_at = ?,
+                    warn_at = ?
                     WHERE sku = ? `
       let params = [stock, warn_at, sku]
       db.run(sql, params)
@@ -227,7 +227,7 @@ class Repository {
             console.log(err)
             reject(err)
           }
-          console.log(result)
+          console.log('sever result', result)
           resolve(result)
         })
       })
