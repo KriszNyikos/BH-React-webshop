@@ -7,7 +7,7 @@ class Repository {
   async productsAll() {
     const prods = new Promise((resolve, reject) => {
       db.serialize(function () {
-        db.all("SELECT p.sku, p.name, p.price, i.quantity, i.warn_at FROM products p INNER JOIN inventory i ON p.sku = i.sku", (err, results) => {
+        db.all("SELECT p.sku, p.name, p.price, i.quantity, i.warn_at FROM products p LEFT JOIN inventory i ON p.sku = i.sku", (err, results) => {
           if (err) {
            // console.log(err)
             reject(err)
@@ -197,11 +197,19 @@ class Repository {
   deleteBySku(sku){
     const sql = `DELETE FROM products WHERE sku = '${sku}'`
     const imgSql = `DELETE FROM images WHERE sku = '${sku}'`
+    const skuSql = `DELETE FROM inventory WHERE sku = '${sku}'`
     db.serialize(function(){
       db.run(sql)
       db.run(imgSql)
+      db.run(skuSql)
     })
 
+  }
+
+  createStock(sku){
+    db.serialize(function () {
+      db.run(`INSERT INTO inventory (sku, quantity, warn_at) VALUES (?, ?, ?)`, [sku, 0, 5])
+    })
   }
 
 

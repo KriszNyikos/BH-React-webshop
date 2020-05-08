@@ -24,6 +24,7 @@ class ProductService {
 
     newProduct(sku, name, price, description, specs, imagesPath) {
         this.repository.newProductDetails(sku, name, price, description, specs);
+        this.repository.createStock(sku)
 
         if (imagesPath.length > 0) {
             imagesPath.forEach((element, i) => {
@@ -70,6 +71,7 @@ class ProductService {
 
     delProduct(sku){
         this.repository.deleteBySku(sku)
+        this.repository.deleteStock(sku)
     }
 
    async stockStatus(sku){
