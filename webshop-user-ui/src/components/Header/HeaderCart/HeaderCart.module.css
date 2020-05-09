@@ -1,0 +1,11 @@
+.cartBody{
+    border: 1px solid black
+}
+
+.cartInfos{
+    display: none
+}
+
+.cartBody:hover .cartInfos{
+    display: block;
+}
