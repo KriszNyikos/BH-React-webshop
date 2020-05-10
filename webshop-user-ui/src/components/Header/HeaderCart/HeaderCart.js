@@ -1,45 +1,46 @@
 import React, { Component } from 'react'
 import styles from './HeaderCart.module.css'
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
+import { mapStatetoHeaderCart } from '../../../redux/services'
 
 
-const orders = [
-    { price: 211, name: 'Kiskutya', quantity: 3 },
-    { price: 333, name: 'Kiscica', quantity: 3 },
-    { price: 456, name: 'Kishalacska', quantity: 3 },
-    { price: 789, name: 'Kiskacsa', quantity: 3 },
-]
 
-const orders2 = []
 
-let total = orders2.reduce((accumulator, currentValue) => accumulator + currentValue.price, 0)
-
-export default class HeaderCart extends Component {
+class HeaderCart extends Component {
     render() {
+        // sentinel/guard statement/check
+        if (this.props.cart.length === 0) return <div>Cart is empty</div> 
+
+
         return (
 
-
             <div className={styles.cartBody}>
-                {(orders2.length === 0) ? <div>Cart is empty</div> : (<div>
+                
                     <div>
-                    Total  {total}
-                    <Link to="/cart">go to cart</Link>
-                </div>
+                        <div>
+                            Total  {this.props.cart.reduce((accumulator, currentValue) => accumulator + currentValue.price, 0)}
+                            <Link to="/cart">go to cart</Link>
+                        </div>
 
-                <div className={styles.cartInfos}>
-                    <ul>
-                        {orders.map((product) => {
-                            return (
-                                <li>{product.name}, {product.price}, {product.quantity} </li>
-                            )
-                        })}
+                        <div className={styles.cartInfos}>
+                            <ul >
+                                {this.props.cart.map((product, index) => {
+                                    return (
+                                        <li key={index}>{product.quantity} x {product.name} = {product.price} </li>
+                                    )
+                                })}
 
-                    </ul>
-                </div>
-                </div>)}
-            
+                            </ul>
+                                Total  {this.props.cart.reduce((accumulator, currentValue) => accumulator + currentValue.price, 0)}
+                        </div>
+                    </div>
+                
 
             </div>
+
         )
     }
 }
+
+export default connect(mapStatetoHeaderCart)(HeaderCart)
