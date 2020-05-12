@@ -3,9 +3,13 @@ import { connect } from 'react-redux';
 
 import styles from './Grid.module.css'
 import GridProduct from './GridProduct'
-import { mapStateToAllProps } from '../../redux/services'
 import { Container } from 'react-bootstrap';
 
+
+
+const mapStateToProps = state => {
+  return {...state}
+}
 
 class Grid extends Component {
   render() {
@@ -21,4 +25,4 @@ class Grid extends Component {
   }
 }
 
-export default connect(mapStateToAllProps)(Grid)
+export default connect(mapStateToProps)(Grid)

@@ -2,9 +2,11 @@ import React, { Component } from 'react'
 import styles from './HeaderCart.module.css'
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
-import { mapStatetoHeaderCart } from '../../../redux/services'
 
-
+const mapStateToProps = state => {
+    const {products, cart} = state
+    return {products, cart}
+}
 
 
 class HeaderCart extends Component {
@@ -19,7 +21,7 @@ class HeaderCart extends Component {
                 
                     <div>
                         <div>
-                            Total  {this.props.cart.reduce((accumulator, currentValue) => accumulator + currentValue.price, 0)}
+                            Total  {this.props.cart.reduce((accumulator, currentValue) => accumulator + (currentValue.price * currentValue.quantity), 0)}
                             <Link to="/cart">go to cart</Link>
                         </div>
 
@@ -27,12 +29,12 @@ class HeaderCart extends Component {
                             <ul >
                                 {this.props.cart.map((product, index) => {
                                     return (
-                                        <li key={index}>{product.quantity} x {product.name} = {product.price} </li>
+                                        <li key={index}>{product.quantity} x {product.name} = {product.price * product.quantity} </li>
                                     )
                                 })}
 
                             </ul>
-                                Total  {this.props.cart.reduce((accumulator, currentValue) => accumulator + currentValue.price, 0)}
+                                Total  {this.props.cart.reduce((accumulator, currentValue) => accumulator + (currentValue.price * currentValue.quantity), 0)}
                         </div>
                     </div>
                 
@@ -43,4 +45,4 @@ class HeaderCart extends Component {
     }
 }
 
-export default connect(mapStatetoHeaderCart)(HeaderCart)
+export default connect(mapStateToProps)(HeaderCart)

@@ -8,7 +8,7 @@ import {
 
 import Cart from './components/Cart/Cart'
 import Header from './components/Header/Header'
-import Carousel from './components/Carousel/Carousel'
+import Offering from './components/Carousel/Offering'
 import Grid from './components/Grid/Grid'
 import Footer from './components/Footer/Footer'
 
@@ -25,7 +25,7 @@ function App() {
         </Route>
 
         <Route path="/">
-              <Carousel/>
+              <Offering/>
               <Grid/>
         </Route>
         </Switch>
