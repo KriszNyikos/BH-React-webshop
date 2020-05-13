@@ -15,30 +15,70 @@ const initialState =
 }
 
 export default function (state = initialState, action) {
+    const newState = { ...state }
+
 
     switch (action.type) {
         case 'ADD_TO_CART':
-            const newState = { ...state }
-
-            newState.products.forEach((product, index) => {
-                if (product.sku === action.payload.sku) {
-                    newState.products[index] = { ...newState.products[index], stock: product.stock - action.payload.quantity}
-                }
-            });
+            {
+                const product = newState.products.filter(e => e.sku === action.payload.sku)[0]
+                const cartProduct = newState.cart.filter(e => e.sku === action.payload.sku)
 
 
-            if ((newState.cart.findIndex(product => product.sku === action.payload.sku)) >= 0) {
-                newState.cart.forEach((product, index) => {
-                    if (product.sku === action.payload.sku) {
-                        newState.cart[index] = { ...newState.cart[index], quantity: product.quantity + action.payload.quantity}
+                if (product.stock !== 0 && cartProduct) {
 
+                    newState.products.forEach((product, index) => {
+                        if (product.sku === action.payload.sku && product.stock > 0) {
+                            newState.products[index] = { ...newState.products[index], stock: product.stock - 1 }
+                        }
+                    });
+
+                    if ((newState.cart.findIndex(product => product.sku === action.payload.sku)) >= 0) {
+                        newState.cart.forEach((product, index) => {
+                            if (product.sku === action.payload.sku) {
+                                newState.cart[index] = { ...newState.cart[index], quantity: product.quantity + 1 }
+
+                            }
+                        });
+                        newState.cart = [...newState.cart]
+                        return newState
                     }
-                });
-                newState.cart = [...newState.cart]
+
+
+                    newState.cart = [...newState.cart, { sku: product.sku, price: product.price, quantity: 1, name: product.name }]
+
+                }
                 return newState
             }
-            newState.cart = [...newState.cart, action.payload]
+
+        case 'REMOVE_FROM_CART':
+            {
+                //const product = newState.products.filter(e => e.sku === action.payload.sku)[0]
+                const cartProduct = newState.cart.filter(e => e.sku === action.payload.sku)[0]
+
+                if ( cartProduct && cartProduct.quantity >= 1) {
+
+                    newState.products.forEach((product, index) => {
+                        if (product.sku === action.payload.sku && product.stock >= 0) {
+                            newState.products[index] = { ...newState.products[index], stock: product.stock + 1 }
+                        }
+                    });
+
+                    if ((newState.cart.findIndex(product => product.sku === action.payload.sku && product.quantity !== 0)) >= 0) {  /// megnézni
+                        newState.cart.forEach((product, index) => {
+                            if (product.sku === action.payload.sku) {
+                                newState.cart[index] = { ...newState.cart[index], quantity: product.quantity - 1 }
+                            }
+                        });
+                        newState.cart = newState.cart.filter(e => e.quantity !== 0)
+                        newState.cart = [...newState.cart]
+                        return newState
+                    }
+                }
+
             return newState
+            }
+
 
         default:
             return state
