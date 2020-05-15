@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux';
+import {Container, Row, Button} from 'react-bootstrap'
+import CartProduct from './CartProduct'
 
 const mapStatetotoProps = state => {
     const {cart} = state
@@ -9,23 +11,32 @@ const mapStatetotoProps = state => {
 class Cart extends Component{
     render(){
         return(
-            <div>
-            <div>
-                Total  {this.props.cart.reduce((accumulator, currentValue) => accumulator + currentValue.price, 0)}
-            </div>
 
-            <div>
-                <ul >
-                    {this.props.cart.map((product, index) => {
+            <Container>
+
+                    {
+                    this.props.cart.length > 0 ?
+                    
+                   this.props.cart.map((product, index) => {
                         return (
-                            <li key={index}>{product.quantity} x {product.name} = {product.price} </li>
+                            <Row>
+                            <CartProduct key={index} sku={product.sku}/>
+                           </Row>
                         )
-                    })}
+                    })
+                    :
+                    "The cart is empty"
+                    }
 
-                </ul>
+
                     Total  {this.props.cart.reduce((accumulator, currentValue) => accumulator + currentValue.price, 0)}
-            </div>
-        </div>
+
+                    <Row className='justify-content-between'>
+                <Button variant="outline-primary" onClick={() => this.props.dispatch({type: 'EMPTY_CART'})}><div>Empty Cart</div></Button>
+                <Button variant="primary" ><div> Checkout</div></Button>
+                </Row>
+            </Container>
+
         )
     }
 }
