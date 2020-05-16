@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {Container, Button, Row} from 'react-bootstrap'
 
 const mapStatetotoProps = (state, props) => {
-    const { products, cart } = state
+    const { products, cart } = state.cartReducer
     const { sku } = props
 
     const stock = products.filter(e => e.sku === sku)[0]

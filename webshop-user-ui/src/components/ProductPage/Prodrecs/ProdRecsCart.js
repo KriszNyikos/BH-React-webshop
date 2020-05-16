@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Card, Container, Row } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import {Link } from 'react-router-dom'
-import GridProductButton from './GridProductButton'
 
 
 
@@ -15,36 +14,26 @@ const mapStateToProps = (state, props) => {
 }
 
 
-class GridProduct extends Component {
+class ProdRecsCart extends Component {
     constructor(props) {
         super(props)
     }
 
-    toProductPage(){
-
-    } 
-
     render() {
-        const pic = this.props.picObj.picArr[this.props.picObj.main] || this.props.picObj.picArr[0]
         const path = `/product/${this.props.data.sku}`
+       const picPath = this.props.picObj.picArr[this.props.picObj.main] || this.props.picObj.picArr[0]
         return (
-            
-            <Card style={{ width: '20rem', margin: '15px' }}>
-                <Link to={path}><Card.Img variant="top" src={pic} /></Link>
+            <Card style={{ width: '5rem', margin: '15px' }}>
+                <Link to={path}><Card.Img variant="top" src={picPath} /></Link>
                 <Card.Body>
                     <Card.Text>
                         <Container>
-
                             <Row className='justify-content-between'>
                             <Link to={path}>  <b>{this.props.data.name}</b></Link>
                                 <div>{this.props.data.sku}</div>
                                 <div> Price: {this.props.data.price}</div>
                             </Row>
-
                         </Container>
-
-                        <GridProductButton sku={this.props.data.sku}/>
-
                     </Card.Text>
                 
                 </Card.Body>
@@ -55,5 +44,5 @@ class GridProduct extends Component {
     }
 }
 
-export default connect(mapStateToProps)(GridProduct)
+export default connect(mapStateToProps)(ProdRecsCart)
 

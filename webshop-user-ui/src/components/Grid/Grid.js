@@ -8,7 +8,7 @@ import { Container } from 'react-bootstrap';
 
 
 const mapStateToProps = state => {
-  return {...state}
+  return {...state.cartReducer}
 }
 
 class Grid extends Component {
@@ -17,7 +17,7 @@ class Grid extends Component {
       <h2>Grid</h2>
       <div className={styles.flexBox}>
         {this.props.products.map((product, index) => {
-          return <GridProduct key={index} data={product} />
+          return <GridProduct key={index} data={product}/>
         })}
       </div>
 

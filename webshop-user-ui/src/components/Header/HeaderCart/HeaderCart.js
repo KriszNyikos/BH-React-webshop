@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
-    const {products, cart} = state
+    const {products, cart} = state.cartReducer
     return {products, cart}
 }
 
