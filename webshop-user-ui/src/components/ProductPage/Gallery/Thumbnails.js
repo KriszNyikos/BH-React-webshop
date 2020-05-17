@@ -14,8 +14,9 @@ export default class Thumbnails extends Component {
             <Container>
                 <Row>
                     {this.props.pictures.map((p, index) => {
+                        const imgPath = `http://localhost:3050${p.imagePath}`
                         return (<Col xs={6} md={4}>
-                            <Image onClick={() => this.changeIndex(index)} src={p} thumbnail />
+                            <Image onClick={() => this.changeIndex(index)} src={imgPath} thumbnail />
                         </Col>)
                     })}
 

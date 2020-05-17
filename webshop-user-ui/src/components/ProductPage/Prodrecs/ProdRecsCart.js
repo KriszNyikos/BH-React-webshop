@@ -9,7 +9,7 @@ import {Link } from 'react-router-dom'
 const mapStateToProps = (state, props) => {
     const { sku } = props.data
     const {pictures} = state.cartReducer
-    const picObj = pictures.filter(p => p.sku === sku)[0]
+    const picObj = pictures.find(p => p.sku === sku && p.isPrimary) || pictures.find(p => p.sku)
     return { picObj }
 }
 
@@ -21,10 +21,10 @@ class ProdRecsCart extends Component {
 
     render() {
         const path = `/product/${this.props.data.sku}`
-       const picPath = this.props.picObj.picArr[this.props.picObj.main] || this.props.picObj.picArr[0]
+       const picPath = `http://localhost:3050${this.props.picObj.imagePath}` 
         return (
             <Card style={{ width: '5rem', margin: '15px' }}>
-                <Link to={path}><Card.Img variant="top" src={picPath} /></Link>
+                <Link to={path}><Card.Img variant="top" src={picPath}/></Link>
                 <Card.Body>
                     <Card.Text>
                         <Container>

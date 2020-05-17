@@ -12,6 +12,14 @@ class ProductListController {
  
     }
 
+
+   async storeData(req, res){
+        
+      const  data = await this.productService.cartProducts()
+
+        res.json(data)
+    }
+
 }
 
 module.exports = ProductListController;

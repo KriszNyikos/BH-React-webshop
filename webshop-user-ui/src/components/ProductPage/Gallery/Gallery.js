@@ -7,8 +7,9 @@ import { connect } from 'react-redux';
   const mapStateToProps = (state, props) => {
     const{sku} = props
     const {pictures} = state.cartReducer
-    const picObj = pictures.filter(p => p.sku === sku)[0]
-    return { picObj }
+    const picArr = pictures.filter(p => p.sku === sku)
+    const primary = picArr.findIndex(p=> p.isPrimary === 1)
+    return { picArr, primary }
 }
 
 
@@ -17,8 +18,7 @@ class Gallery extends Component {
 
     constructor(props){
         super(props)
-        console.log(this.props.picObj)
-        this.state = {pictures: this.props.picObj.picArr, bigPixIndex: this.props.picObj.main || 0}
+        this.state = {pictures: this.props.picArr, bigPixIndex: (this.props.primary === -1) ? 0 : this.props.primary }
         this.picChanger = this.picChanger.bind(this)
     }
 
@@ -27,11 +27,13 @@ class Gallery extends Component {
     }
 
     render() {
+        const imgPath = `http://localhost:3050${this.state.pictures[this.state.bigPixIndex].imagePath}`
         return (
+
             <Container>
                 <Row>
                     <Col xs={6} md={4}>
-                        <Image style={{height: "200px"}} src={this.state.pictures[this.state.bigPixIndex]} rounded />
+                        <Image style={{height: "200px"}} src={imgPath} rounded />
                     </Col>
                 </Row>
                 <Row>

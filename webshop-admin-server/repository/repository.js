@@ -9,7 +9,7 @@ class Repository {
       db.serialize(function () {
         db.all("SELECT p.sku, p.name, p.price, i.quantity, i.warn_at FROM products p LEFT JOIN inventory i ON p.sku = i.sku", (err, results) => {
           if (err) {
-           // console.log(err)
+            // console.log(err)
             reject(err)
           }
           resolve(results)
@@ -18,12 +18,12 @@ class Repository {
     })
     const awaitedProds = await prods;
 
-    const prodsWImgs = new Promise((resolve,reject) => {
-      db.serialize(async function() {
-        const imgs = [];        
-        awaitedProds.forEach( prod => {
-          db.get("SELECT imagePath FROM images WHERE sku = ? AND isPrimary = 1", prod.sku, (err,img) => {
-            if(!img) {
+    const prodsWImgs = new Promise((resolve, reject) => {
+      db.serialize(async function () {
+        const imgs = [];
+        awaitedProds.forEach(prod => {
+          db.get("SELECT imagePath FROM images WHERE sku = ? AND isPrimary = 1", prod.sku, (err, img) => {
+            if (!img) {
               const noImage = {
                 ...prod,
                 imagePath: 'No image'
@@ -34,13 +34,13 @@ class Repository {
 
             const withImage = {
               ...prod,
-              imagePath:img.imagePath
+              imagePath: img.imagePath
             }
             imgs.push(withImage);
 
           })
         })
-        
+
         resolve(imgs);
       })
     })
@@ -66,7 +66,7 @@ class Repository {
   newProductDetails(sku, name, price, description, specs) {
     db.serialize(function () {
       console.log(`Hello ez hozzáadás ${sku, name}`);
-      db.run(`INSERT INTO products (sku, name, price, description, specs) VALUES (?, ?, ?, ?, ?)`, [sku, name, price, description, specs])
+      db.run(`INSERT INTO products (sku, name, price, description, specs, hlighted) VALUES (?, ?, ?, ?, ?, ?)`, [sku, name, price, description, specs, 1])
     })
   }
 
@@ -144,7 +144,7 @@ class Repository {
     return new Promise((resolve, reject) => {
       db.serialize(function () {
         const findPathById = `SELECT imagePath FROM images WHERE rowid = ${id}`
-         db.get(findPathById, (err, result) => {
+        db.get(findPathById, (err, result) => {
           if (err) reject(err)
           console.log(result)
           resolve(result.imagePath)
@@ -153,29 +153,30 @@ class Repository {
     })
   }
 
-  changePrimaryImage(id){
+  changePrimaryImage(id) {
     return new Promise((resolve, reject) => {
-        db.serialize(function (){
-            const findPrevPrimary = `SELECT sku FROM images WHERE rowid = ${id}`
-            db.get(findPrevPrimary,
-                (err, result)=>{
-                    if(err){
-                        reject(err)  
-                      } 
-                   db.run(`UPDATE images SET isPrimary = 0 WHERE sku = "${result.sku}" AND isPrimary = 1`, (err)=>{
-                       if(err){
-                          reject(err) 
-                       }
-                        db.run(`UPDATE images SET isPrimary = 1 WHERE rowid = ${id}`, 
-                        (err)=>{if(!err){
-                            reject(err)  
-                          }
-                        resolve("DONE")
-                        })
-                        
-                   })
+      db.serialize(function () {
+        const findPrevPrimary = `SELECT sku FROM images WHERE rowid = ${id}`
+        db.get(findPrevPrimary,
+          (err, result) => {
+            if (err) {
+              reject(err)
+            }
+            db.run(`UPDATE images SET isPrimary = 0 WHERE sku = "${result.sku}" AND isPrimary = 1`, (err) => {
+              if (err) {
+                reject(err)
+              }
+              db.run(`UPDATE images SET isPrimary = 1 WHERE rowid = ${id}`,
+                (err) => {
+                  if (!err) {
+                    reject(err)
+                  }
+                  resolve("DONE")
                 })
-        })
+
+            })
+          })
+      })
     })
 
   }
@@ -194,11 +195,11 @@ class Repository {
     })
   }
 
-  deleteBySku(sku){
+  deleteBySku(sku) {
     const sql = `DELETE FROM products WHERE sku = '${sku}'`
     const imgSql = `DELETE FROM images WHERE sku = '${sku}'`
     const skuSql = `DELETE FROM inventory WHERE sku = '${sku}'`
-    db.serialize(function(){
+    db.serialize(function () {
       db.run(sql)
       db.run(imgSql)
       db.run(skuSql)
@@ -206,17 +207,17 @@ class Repository {
 
   }
 
-  createStock(sku){
+  createStock(sku) {
     db.serialize(function () {
       db.run(`INSERT INTO inventory (sku, quantity, warn_at) VALUES (?, ?, ?)`, [sku, 0, 5])
     })
   }
 
 
-  updateStock(storeStatus){
-   const {stock, warn_at, sku} = storeStatus
-    console.log('Updatestock, ',stock, warn_at)
-    
+  updateStock(storeStatus) {
+    const { stock, warn_at, sku } = storeStatus
+    console.log('Updatestock, ', stock, warn_at)
+
     db.serialize(function () {
       let sql = `UPDATE inventory
                     SET quantity = ?,
@@ -227,7 +228,7 @@ class Repository {
     })
   }
 
-  getStockStatus(sku){
+  getStockStatus(sku) {
     return new Promise((resolve, reject) => {
       db.serialize(function () {
         db.get("Select quantity, warn_at FROM inventory WHERE sku = ?", sku, (err, result) => {
@@ -241,6 +242,85 @@ class Repository {
       })
     })
   }
+
+
+
+
+
+
+  cartProductsAll() {
+    return new Promise((resolve, reject) => {
+      db.serialize(function () {
+        db.all("SELECT * FROM products", (err, products) => {
+          if (err) {
+            console.log(err)
+            reject(err)
+          }
+
+          products.forEach((p, index) => {
+            db.get("SELECT quantity FROM inventory WHERE sku = ?", p.sku, (err, result) => {
+              if (err) {
+                console.log(err)
+                reject(err)
+              }
+              products[index].stock = result.quantity
+            })
+          })
+          resolve(products)
+        })
+      })
+    })
+  }
+
+  cartImagesAll() {
+    return new Promise((resolve, reject) => {
+      const pictures = []
+      db.serialize(function () {
+        db.all("SELECT * FROM images", (err, result) => {
+          if (err) {
+            console.log(err)
+            reject(err)
+          }
+          resolve(result)
+        })
+      })
+    })
+  }
+
+  decreaseQ(data) {
+    const { sku, quantity } = data
+    db.serialize(function () {
+      db.run("UPDATE inventory SET quantity = quantity - ? WHERE sku = ?", [quantity, sku], (err, result) => {
+      })
+    })
+  }
+
+  newOrder(data){
+    console.log(data)
+    console.log('In server',JSON.parse(data.cart))
+    const {cust_name, address, cart} = data
+  
+    db.serialize(function () {
+      db.run(`INSERT INTO orders (cust_name, address, items, price) VALUES (?,?,?,?)`, [cust_name, address, cart])
+    })
+  }
+
+  allOrder(){
+    //return new Promise((resolve, reject) => {
+      db.serialize(function () {
+        db.all("SELECT * FROM orders", (err, result) => {
+          if (err) {
+            console.log(err)
+           // reject(err)
+          }
+          console.log(result)
+         // resolve(result)
+        })
+      })
+  //  })
+  }
+
+
 }
 
 

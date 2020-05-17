@@ -3,14 +3,15 @@ import { connect } from 'react-redux';
 import {Container, Button, Row} from 'react-bootstrap'
 
 const mapStatetotoProps = (state, props) => {
-    const { products, cart } = state.cartReducer
+    const { products, cart, pictures } = state.cartReducer
     const { sku } = props
 
+    const picture = pictures.find(p => p.sku === sku && p.isPrimary === 1) || pictures.find(p => p.sku === sku)
     const stock = products.filter(e => e.sku === sku)[0]
     const cartProduct = cart.filter(e => e.sku === sku)[0]
     const quantity = products.filter(e => e.sku === sku)[0].stock
 
-    return { cartProduct, quantity, stock }
+    return { cartProduct, quantity, stock, picture }
 }
 
 class CartProduct extends Component{
@@ -24,11 +25,12 @@ class CartProduct extends Component{
     }
 
     render(){
-        const { sku, quantity, stock } = this.props
+        const { sku, quantity, stock, picture } = this.props
+        const imgPath = `http://localhost:3050${picture.imagePath}`
         return(
             <Container>
                 <Row className='justify-content-between'>
-                <img style={{height: "100px"}} src="https://picsum.photos/500/500"/>
+                <img style={{height: "100px"}} src={imgPath}/>
                 {this.props.cartProduct.price}
                 {sku}
                 {stock !== 0 ? <Button variant="outline-primary" onClick={() => this.removeItem({ sku })}><div>-</div></Button>: ""}

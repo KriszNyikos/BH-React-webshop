@@ -10,8 +10,8 @@ import GridProductButton from './GridProductButton'
 const mapStateToProps = (state, props) => {
     const { sku } = props.data
     const {pictures} = state.cartReducer
-    const picObj = pictures.filter(p => p.sku === sku)[0]
-    return { picObj }
+    const picArr = pictures.filter(p => p.sku === sku)
+    return { picArr }
 }
 
 
@@ -25,11 +25,13 @@ class GridProduct extends Component {
     } 
 
     render() {
-        const pic = this.props.picObj.picArr[this.props.picObj.main] || this.props.picObj.picArr[0]
+        let imgPath = (this.props.picArr.find(p => p.isPrimary === 1)|| this.props.picArr[0]).imagePath
+        const pic = `http://localhost:3050${imgPath}` 
         const path = `/product/${this.props.data.sku}`
         return (
             
             <Card style={{ width: '20rem', margin: '15px' }}>
+               
                 <Link to={path}><Card.Img variant="top" src={pic} /></Link>
                 <Card.Body>
                     <Card.Text>

@@ -78,6 +78,15 @@ class ProductService {
         return await this.repository.getStockStatus(sku)
        // return stock
     }
+
+
+  async cartProducts(){
+       const products = await this.repository.cartProductsAll()
+       const pictures = await this.repository.cartImagesAll()
+
+       return {products, pictures}
+
+    }
 }
 
 module.exports = ProductService;

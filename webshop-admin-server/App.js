@@ -11,6 +11,8 @@ const ImagesService = require('./service/images-service');
 const ProductListController = require('./controller/product-list-controller');
 const UpdateProductController = require('./controller/update-product-controller')
 const SkuGenerator = require('./utils/sku-generator');
+const OrderController = require('./controller/order-controller')
+const OrderService = require('./service/order-service')
 
 const app = express();
 const port = 3050;
@@ -28,7 +30,11 @@ const imagesService = new ImagesService();
 const newProductController = new NewProductController(productService,validationService,imagesService);
 const updateProductController = new UpdateProductController(productService, repository, validationService, imagesService)
 const productListController = new ProductListController(productService);
+const orderService = new OrderService(repository)
+const orderController = new OrderController(orderService)
 
+
+//   admin requests--------------------------------------------------------------
 app.post('/product', newProductController.uploadProduct.bind(newProductController));
 
 app.get('/product/:sku', updateProductController.productBySku.bind(updateProductController)); 
@@ -37,8 +43,13 @@ app.post('/product/:sku/files', updateProductController.updateImages.bind(newPro
 app.put('/files/:id', updateProductController.updatePrimary.bind(updateProductController))
 app.delete('/files/:id', updateProductController.delImageById.bind(updateProductController))
 app.delete('/product/:sku', updateProductController.deleteProduct.bind(updateProductController))
-
 app.get('/products', productListController.products.bind(productListController));
 
+app.get('/orders', orderController.orders.bind(orderController))
+
+// customer requests---------------------------------------------------------------
+
+app.get('/store-data', productListController.storeData.bind(productListController))
+app.post('/new-order', orderController.newOrder.bind(orderController))
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));

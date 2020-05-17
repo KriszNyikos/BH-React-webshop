@@ -4,8 +4,8 @@ import {connect} from 'react-redux'
 import ProdRecsCart from './ProdRecsCart'
 
 const mapStateToProps = (state) => {
-    const { products } = state.cartReducer
-    return { products }
+    const { products} = state.cartReducer
+    return { products}
 }
 
 class ProdRecs extends Component{
@@ -13,6 +13,7 @@ class ProdRecs extends Component{
     render(){
         return(
         <Container>
+            <h2>Recommended products</h2>
             <Row>
             {
                 this.props.products.map((product, index)=>{

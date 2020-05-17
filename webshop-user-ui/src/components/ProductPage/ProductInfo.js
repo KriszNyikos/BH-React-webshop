@@ -1,31 +1,29 @@
-import React, {Component} from 'react'
-import {Container, Row, Button} from 'react-bootstrap'
+import React, { Component } from 'react'
+import { Container, Row, Button, Form } from 'react-bootstrap'
 import { connect } from 'react-redux'
 
 
-const mapStateToProps = (state, props) => {
-    const { sku } = props
-    const product = state.cartReducer.products.filter(e => e.sku === sku)[0]
-    return { product, sku }
-}
 
+class ProductInfo extends Component {
+    render() {
+        return (
 
-class ProductInfo extends Component{
-    render(){
-        return(
             <Container>
                 <h2>{this.props.product.name}</h2>
                 <Row>
-        <           p>Stock: {this.props.product.stock ? this.props.product.stock : 'Out of stock'}</p><br/>
-                    <p>product description</p>
-                </Row>
+                    <p>Stock info: {this.props.product.stock ? this.props.product.stock : 'Out of stock'}</p>
 
+                </Row>
+                <Row>
+                        <Form.Label>Product description:</Form.Label>
+                        <Form.Control as="textarea" disabled rows="3" value={this.props.product.description}/>
+                </Row>
                 <Row className='justify-content-end'>
-                    <Button onClick={()=> this.props.dispatch({ type: 'ADD_TO_CART', payload: {sku: this.props.sku }})} >Add to cart</Button>
+                    <Button onClick={() => this.props.dispatch({ type: 'ADD_TO_CART', payload: { sku: this.props.product.sku } })} >Add to cart</Button>
                 </Row>
             </Container>
         )
     }
 }
 
-export default connect(mapStateToProps)(ProductInfo)
+ export default connect(null, null)(ProductInfo)

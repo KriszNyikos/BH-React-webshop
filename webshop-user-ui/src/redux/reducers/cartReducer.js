@@ -1,36 +1,76 @@
-const initialState =
-{
-    products: [
-        { sku: 'kisku', price: 211, name: 'Kiskutya', stock: 33, highlighted: true },
-        { sku: 'kisci', price: 333, name: 'Kiscica', stock: 34, highlighted: true },
-        { sku: 'kisha', price: 456, name: 'Kishalacska', stock: 23, highlighted: false },
-        { sku: 'sargka', price: 789, name: 'Sárgakacsa', stock: 3, highlighted: false },
-        { sku: 'barku', price: 2166, name: 'Barnakutya', stock: 55, highlighted: false },
-        { sku: 'keci', price: 323, name: 'Kékcica', stock: 13, highlighted: false },
-        { sku: 'fuha', price: 476, name: 'Furahalacska', stock: 56, highlighted: false },
-        { sku: 'mima', price: 7209, name: 'Milyenkacsa', stock: 7, highlighted: true },
+
+const testInitial = {
+
+    "products": [
+        {
+            "sku": "SKU001",
+            "name": "Macbook Pro",
+            "price": 3999,
+            "description": "Blabla",
+            "specs": "Triolalala",
+            "hlighted": 1,
+            "stock": 33
+        },
+        {
+            "sku": "SKU002",
+            "name": "Macbook Pro2",
+            "price": 5945,
+            "description": "Blabla",
+            "specs": "Triolalala",
+            "hlighted": 0,
+            "stock": 500
+        },
+        {
+            "sku": "SKU003",
+            "name": "Macbook Pro3",
+            "price": 5463,
+            "description": "Blabla",
+            "specs": "Triolalala",
+            "hlighted": 0,
+            "stock": 6
+        }
     ],
-    pictures: [
-        { sku: 'kisku',
-         picArr: ['https://i.picsum.photos/id/10/2500/1667.jpg', 'https://i.picsum.photos/id/1000/5626/3635.jpg', 'https://i.picsum.photos/id/100/2500/1656.jpg', 'https://i.picsum.photos/id/1001/5616/3744.jpg'],
-        main: 0 },
-        { sku: 'kisci', picArr: ['https://i.picsum.photos/id/10/2500/1667.jpg', 'https://i.picsum.photos/id/1000/5626/3635.jpg', 'https://i.picsum.photos/id/100/2500/1656.jpg', 'https://i.picsum.photos/id/1001/5616/3744.jpg'],
-        main: 1 },
-        { sku: 'kisha', picArr: ['https://i.picsum.photos/id/10/2500/1667.jpg', 'https://i.picsum.photos/id/1000/5626/3635.jpg', 'https://i.picsum.photos/id/100/2500/1656.jpg', 'https://i.picsum.photos/id/1001/5616/3744.jpg'],
-        main: 2},
-        { sku: 'sargka', picArr: ['https://i.picsum.photos/id/10/2500/1667.jpg', 'https://i.picsum.photos/id/1000/5626/3635.jpg', 'https://i.picsum.photos/id/100/2500/1656.jpg', 'https://i.picsum.photos/id/1001/5616/3744.jpg'],
-        main: 3},
-        { sku: 'barku', picArr: ['https://i.picsum.photos/id/10/2500/1667.jpg', 'https://i.picsum.photos/id/1000/5626/3635.jpg', 'https://i.picsum.photos/id/100/2500/1656.jpg', 'https://i.picsum.photos/id/1001/5616/3744.jpg'],
-        main: 4 },
-        { sku: 'keci', picArr: ['https://i.picsum.photos/id/10/2500/1667.jpg', 'https://i.picsum.photos/id/1000/5626/3635.jpg', 'https://i.picsum.photos/id/100/2500/1656.jpg', 'https://i.picsum.photos/id/1001/5616/3744.jpg'],
-        main: 2 },
-        { sku: 'fuha', picArr: ['https://i.picsum.photos/id/10/2500/1667.jpg', 'https://i.picsum.photos/id/1000/5626/3635.jpg', 'https://i.picsum.photos/id/100/2500/1656.jpg', 'https://i.picsum.photos/id/1001/5616/3744.jpg'],
-        main: 1 },
-        { sku: 'mima', picArr: ['https://i.picsum.photos/id/10/2500/1667.jpg', 'https://i.picsum.photos/id/1000/5626/3635.jpg', 'https://i.picsum.photos/id/100/2500/1656.jpg', 'https://i.picsum.photos/id/1001/5616/3744.jpg'],
-        main: 3}
+    "pictures": [
+        {
+            "sku": "SKU001",
+            "imagePath": "/SKU001/1.jpg",
+            "isPrimary": 0
+        },
+        {
+            "sku": "SKU001",
+            "imagePath": "/SKU001/2.jpg",
+            "isPrimary": 0
+        },
+        {
+            "sku": "SKU002",
+            "imagePath": "/SKU002/1.jpg",
+            "isPrimary": 1
+        },
+        {
+            "sku": "SKU002",
+            "imagePath": "/SKU002/2.jpg",
+            "isPrimary": 0
+        },
+        {
+            "sku": "SKU003",
+            "imagePath": "/SKU003/1.jpg",
+            "isPrimary": 1
+        },
+        {
+            "sku": "SKU003",
+            "imagePath": "/SKU003/2.jpg",
+            "isPrimary": 0
+        }
     ],
     cart: []
 }
+
+const initialState = {
+    products: [],
+    pictures: [],
+    cart: []
+}
+
 
 export default function cartReducer(state = initialState, action) {
 
@@ -91,10 +131,11 @@ export default function cartReducer(state = initialState, action) {
                 return { ...newState, cart: [] }
             }
 
-            case 'UPDATE_DATAS':
-                {
-                    return state
-                }
+
+        case 'UPDATE_DATAS':
+            {
+                return { ...newState, products: action.payload.products, pictures: action.payload.pictures }
+            }
 
 
         default:

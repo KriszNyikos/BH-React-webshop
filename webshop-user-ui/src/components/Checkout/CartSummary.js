@@ -12,7 +12,7 @@ export default class CartSummary extends Component{
                    this.props.cart.map((product, index) => {
                         return (
                             <ul>
-                            <Row className='justify-content-between'>
+                            <Row key={index} className='justify-content-between'>
                               <div> {product.name}</div>
                               <div>{product.price}</div> 
                               <div>{product.quantity}</div> 

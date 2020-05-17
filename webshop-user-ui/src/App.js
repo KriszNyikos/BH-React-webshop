@@ -4,7 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Redirect
 } from "react-router-dom";
 
 import Cart from './components/Cart/Cart'
@@ -17,8 +18,11 @@ import ProductPage from './components/ProductPage/ProductPage'
 
 class App extends Component {
 
-  componentDidMount(){
-   // this.props.dispatch({type: 'UPDATE_DATAS', payload: {}})
+  async componentDidMount(){
+   fetch('http://localhost:3050/store-data', {method: 'GET'})
+   .then(res => res.json())
+   .then(res => this.props.dispatch({type: 'UPDATE_DATAS', payload: res}))
+    //this.props.dispatch({type: 'UPDATE_DATAS', payload: {}})
   }
 
   render() {
@@ -37,11 +41,14 @@ class App extends Component {
                 <Checkout />
               </Route>
 
+              <Route path="/products">
+                <Offering />
+                <Grid />
+              </Route>
               <Route path="/product/:sku" component={ProductPage} />
 
               <Route path="/">
-                <Offering />
-                <Grid />
+                <Redirect to='/products'/>
               </Route>
             </Switch>
 

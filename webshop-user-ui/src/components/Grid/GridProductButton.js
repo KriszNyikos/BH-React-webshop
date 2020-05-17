@@ -34,7 +34,7 @@ class GridProductButton extends Component {
         return (
             <Container>
                 
-                {(this.props.quantity === 0 ) && <Row className='justify-content-between'> {removeButton} Out of stock </Row>}
+                {(this.props.quantity === 0 ) && <Row className='justify-content-between'><div>{this.props.cartInfo ? removeButton: ''}</div>  Out of stock </Row>}
                 {(this.props.quantity > 0 ) && <Row className='justify-content-between'> {removeButton} {quantity} {addButton(addText)}</Row>}
                
             </Container>
