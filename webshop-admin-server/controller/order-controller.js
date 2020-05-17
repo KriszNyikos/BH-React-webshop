@@ -16,9 +16,13 @@ class OrderController {
         this.orderService.addNewOrder(orderData)
     }
 
-    orders(req, res){
-        this.orderService.getOrders()
-        console.log('Orders')
+  async orders(req, res){
+       const orders = await this.orderService.getOrders()
+       orders.forEach(e =>{
+           e.items = JSON.parse(e.items)
+       })
+       res.json(orders)
+      //  console.log('In controler',orders)
     }
 
 }

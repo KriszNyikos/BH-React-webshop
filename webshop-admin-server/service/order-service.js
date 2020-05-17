@@ -13,7 +13,7 @@ class OrderService {
     }
 
     getOrders(){
-        this.repository.allOrder()
+       return this.repository.allOrder()
     }
 }
 

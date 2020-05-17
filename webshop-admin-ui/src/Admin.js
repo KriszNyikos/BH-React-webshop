@@ -10,6 +10,7 @@ import Dashboard from './components/dashboard';
 import Products from './components/products';
 import UploadProductForm from './components/UploadProductForm';
 import UpdateProduct from './components/UpdateProduct'
+import OrderTable from './components/OrderTable/OrderTable'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Nav } from 'react-bootstrap'
 
@@ -21,6 +22,9 @@ export default class Admin extends React.Component {
           <Nav>
             <Nav.Item>
               <NavLink exact to="/" style={{ margin: "10px" }} activeStyle={{ fontWeight: "bold" }}>Dashboard</NavLink>
+            </Nav.Item>
+            <Nav.Item>
+              <NavLink exact to="/orders" style={{ margin: "10px" }} activeStyle={{ fontWeight: "bold" }}>Orders</NavLink>
             </Nav.Item>
             <Nav.Item>
               <NavLink to="/products" style={{ margin: "10px" }} activeStyle={{ fontWeight: "bold" }}>Products</NavLink>
@@ -36,6 +40,7 @@ export default class Admin extends React.Component {
             <Route path="/products">
               <Products />
             </Route>
+            <Route path="/orders" component={OrderTable} />
             <Route path="/upload-product" component={UploadProductForm} />
             <Route path="/product/:sku" component={UpdateProduct} />
             <Route path="/">

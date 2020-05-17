@@ -295,29 +295,28 @@ class Repository {
     })
   }
 
-  newOrder(data){
+  newOrder(data) {
     console.log(data)
-    console.log('In server',JSON.parse(data.cart))
-    const {cust_name, address, cart} = data
-  
+    console.log('In server', JSON.parse(data.cart))
+    const { cust_name, address, cart, price } = data
+
     db.serialize(function () {
-      db.run(`INSERT INTO orders (cust_name, address, items, price) VALUES (?,?,?,?)`, [cust_name, address, cart])
+      db.run(`INSERT INTO orders (cust_name, address, items) VALUES (?,?,?)`, [cust_name, address, cart])
     })
   }
 
-  allOrder(){
-    //return new Promise((resolve, reject) => {
+  allOrder() {
+    return new Promise((resolve, reject) => {
       db.serialize(function () {
-        db.all("SELECT * FROM orders", (err, result) => {
+        db.all("SELECT rowid as id, cust_name,  address,  items FROM orders", (err, result) => {
           if (err) {
             console.log(err)
-           // reject(err)
+            reject(err)
           }
-          console.log(result)
-         // resolve(result)
+          resolve(result)
         })
       })
-  //  })
+    })
   }
 
 
