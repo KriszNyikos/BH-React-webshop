@@ -12,14 +12,17 @@ import UploadProductForm from './components/UploadProductForm';
 import UpdateProduct from './components/UpdateProduct'
 import OrderTable from './components/OrderTable/OrderTable'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Nav } from 'react-bootstrap'
+import { Nav, Container, Row } from 'react-bootstrap'
+import logo from './logo.png'
 
 export default class Admin extends React.Component {
   render() {
     return (
       <BrowserRouter>
-        <div id="mainnav" className="d-flex align-items-center justify-content-center">
-          <Nav>
+        <Container id="mainnav" className="align-items-center justify-content-center" fluid>
+          <Row><img src={logo} style={{width: '100px', height: '100px'}} alt='logo' /> </Row>
+          <Row className="d-flex align-items-center justify-content-center">
+            <Nav>
             <Nav.Item>
               <NavLink exact to="/" style={{ margin: "10px" }} activeStyle={{ fontWeight: "bold" }}>Dashboard</NavLink>
             </Nav.Item>
@@ -33,7 +36,9 @@ export default class Admin extends React.Component {
               <NavLink to="/upload-product" style={{ margin: "10px" }} activeStyle={{ fontWeight: "bold" }}>Upload Products</NavLink>
             </Nav.Item>
           </Nav>
-          </div>
+          </Row>
+          
+          </Container>
 
           <div>
           <Switch>

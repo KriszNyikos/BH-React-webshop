@@ -3,6 +3,7 @@ import {Container, Row, Col} from 'react-bootstrap'
 import { connect } from 'react-redux';
 import CheckoutSummary from './CheckoutSummary/CheckoutSummary'
 import OrderForm from './OrderForm'
+import {Redirect} from 'react-router-dom'
 
 
 const mapStatetotoProps = state => {
@@ -16,7 +17,7 @@ class Checkout extends Component{
 
     constructor(){
         super()
-
+        this.state ={redirect: false}
         this.order = this.order.bind(this)
     }
 
@@ -35,14 +36,18 @@ class Checkout extends Component{
                     body: JSON.stringify(orderDatas)
                 }
            )
+           alert('Item is on way')
+           this.setState({redirect: true})
            return
        }
        alert('Cart is empty\nPlease add items')
     }
 
     render(){
+        
         return(
             <Container>
+                {this.state.redirect ? <Redirect to="/products" /> : ""}
                 <Row >   
                    <Col> <CheckoutSummary cart={this.props.cart}/></Col> 
                    <Col> <OrderForm order={this.order}/> </Col> 

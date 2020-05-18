@@ -15,6 +15,7 @@ export default class UpdateProductForm extends React.Component {
             specs: this.props.data.specs,
             stock: this.props.stock.quantity,
             warn_at: this.props.stock.warn_at,
+            hlighted: this.props.data.hlighted,
             error: false,
             deleteModalShow: false
         }
@@ -26,6 +27,7 @@ export default class UpdateProductForm extends React.Component {
         this.specs = React.createRef();
         this.stock = React.createRef();
         this.warn_at = React.createRef();
+        this.hlighted = React.createRef();
         console.log(this.stock);
 
         this.update = this.update.bind(this)
@@ -43,7 +45,8 @@ export default class UpdateProductForm extends React.Component {
         const specs = this.state.specs;
         const stock = this.state.stock;
         const warn_at = this.state.warn_at;
-        console.log(stock, warn_at)
+        const hlighted = this.hlighted.current.checked ? 1 :0
+        console.log(stock, warn_at, hlighted)
 
         const frontedValidation = new UploadValidation();
         const frontedNotValid = frontedValidation.formValidation(sku, name, price, desc, specs)
@@ -61,6 +64,8 @@ export default class UpdateProductForm extends React.Component {
         data.append('specs', specs)
         data.append('stock', stock);
         data.append('warn_at', warn_at);
+        data.append('hlighted', hlighted);
+        
 
         const response = await fetch(`http://localhost:3050/product/${sku}`, {
             method: 'PUT',
@@ -84,6 +89,14 @@ export default class UpdateProductForm extends React.Component {
     handleChange(event) {
         this.setState({ [event.target.name]: event.target.value })
         console.log(this.state);
+    }
+
+    hlightedChange(){
+        console.log('checked:', this.hlighted.current.checked)
+        this.setState({ hlighted: this.hlighted.current.checked })
+        /*
+        if(this.hlighted.current.checked) return this.setState({ hlighted: this.hlighted.current.checked })
+        this.setState({ ...this.state, hlighted: false })*/
     }
 
     reShow() {
@@ -120,15 +133,15 @@ export default class UpdateProductForm extends React.Component {
                                         <Form.Control plaintext defaultValue={this.props.data.sku} ref={this.sku} readOnly />
                                     </Col>
                                     <Col sm={4}>
-                                    <Form.Label>Current stock</Form.Label>
+                                        <Form.Label>Current stock</Form.Label>
                                         <Form.Control type="number" name="stock" defaultValue={this.props.stock.quantity} ref={this.stock} />
                                     </Col>
                                 </Row>
                                 <br />
                                 <Row className="justify-content-md-between">
                                     <Col sm={8}>
-                                    <Form.Label>Name</Form.Label>
-                                <Form.Control type="text" defaultValue={this.state.name} name="name" ref={this.name} />
+                                        <Form.Label>Name</Form.Label>
+                                        <Form.Control type="text" defaultValue={this.state.name} name="name" ref={this.name} />
                                     </Col>
                                     <Col sm={4}>
                                         <Form.Label>Warning at</Form.Label>
@@ -144,6 +157,18 @@ export default class UpdateProductForm extends React.Component {
                                 <br />
                                 <Form.Label>Specs</Form.Label>
                                 <Form.Control as="textarea" row="3" defaultValue={this.state.specs} name="specs" ref={this.specs} />
+                               </Form.Group>
+                             
+                                    <Form.Check
+                                        type="checkbox"
+                                        name="hlighted"
+                                        checked={this.state.hlighted}
+                                        label='Highlighted'
+                                        ref={this.hlighted}
+                                        onChange={()=>this.hlightedChange()}
+                                    />
+                                
+
                                 <br />
                                 <Row className="justify-content-md-between">
                                     <Button variant='primary' className="ml-3" onClick={this.update}>Submit</Button>
@@ -152,7 +177,7 @@ export default class UpdateProductForm extends React.Component {
 
                                 <p id="succes" style={{ color: "green", listStyleType: "none" }}></p>
                                 {this.state.error ? <FormError errorType={this.state.error} reshow={this.reShow.bind(this)} /> : ''}
-                            </Form.Group>
+                            
                         </Col>
                     </Row>
                 </Container>
@@ -167,7 +192,7 @@ export default class UpdateProductForm extends React.Component {
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.deleteModalClose}>
                             Close
-                         </Button>
+                        </Button>
                         <Button variant="danger" onClick={this.deleteProduct}>
                             Delete Product
                         </Button>

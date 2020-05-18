@@ -17,8 +17,8 @@ class ProductService {
     }
 
     update(product) {
-       const {sku, name, price, description, specs, stock, warn_at} = product
-        this.repository.updateProductDetails(new Product(sku, name, price, description, specs))
+       const {sku, name, price, description, specs, stock, warn_at, hlighted} = product
+        this.repository.updateProductDetails(new Product(sku, name, price, description, specs, hlighted))
         this.repository.updateStock({sku, warn_at, stock})
     }
 

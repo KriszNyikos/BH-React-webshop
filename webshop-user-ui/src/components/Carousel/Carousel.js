@@ -28,7 +28,7 @@ class Offering extends Component {
     return (
       <Row className="justify-content-center">
         <Col sm={10}>
-      <Carousel style={{borderRadius: '10px'}} >
+      <Carousel >
         {this.props.highLighted.map(product => 
         {
           const path = `/product/${product.sku}`

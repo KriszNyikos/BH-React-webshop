@@ -16,6 +16,7 @@ export default class ProducTable extends Component{
                         <td>Name</td>
                         <td>Price</td>
                         <td>Stock</td>
+                        <td>Highlighted</td>
                         <td>Operations</td>
                     </tr>
                 </thead>

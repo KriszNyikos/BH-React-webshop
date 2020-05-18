@@ -61,8 +61,9 @@
 }
 
 #mainnav {
-  background-color: #00BCD4;
+  border-top-style: solid;
+  border-bottom-style: solid;
   display: block;
-  height: 60px;
+  height: 150px;
   margin-bottom: 10px;
 }

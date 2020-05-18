@@ -30,9 +30,7 @@ class UpdateProductController {
     let errorType = {};
 
     form.parse(req, async (err, fields, files) => {
-      const { name, price, description, specs, stock, warn_at } = fields;
-      console.log(fields);
-
+      const { name, price, description, specs, stock, warn_at, hlighted } = fields;
       errorType = this.validationService.formValidation(name, price, description, specs);
 
       if (Object.keys(errorType).length > 0) {
@@ -44,7 +42,7 @@ class UpdateProductController {
         console.log(err);
       }
 
-      this.productService.update({sku, name, price, description, specs, stock, warn_at})
+      this.productService.update({sku, name, price, description, specs, stock, warn_at, hlighted: parseInt(hlighted)})
       res.json(errorType)
     })
   }

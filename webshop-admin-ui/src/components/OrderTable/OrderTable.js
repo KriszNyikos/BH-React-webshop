@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Container} from 'react-bootstrap'
+import {Container, Row, Col, Table} from 'react-bootstrap'
 import Order from './Order'
 
 
@@ -20,10 +20,23 @@ export default class OrderTable extends Component{
 
     render(){
         return(
-            <Container>
+            <Container className="justify-content-center">
+                 <Table striped bordered hover>
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Customer Name</th>
+                        <th>Items</th>
+                        <th>Address</th>
+                        <th>Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
             {this.state.orders.map((order, index) =>{
                 return <Order key={index} order={order}/>
             })}
+                        </tbody>
+            </Table>
             </Container>
         )
     }

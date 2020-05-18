@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Container, Row } from 'react-bootstrap'
+import { Card, Container, Row, Col } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import GridProductButton from './GridProductButton'
@@ -29,9 +29,9 @@ class GridProduct extends Component {
         const pic = `http://localhost:3050${imgPath}`
         const path = `/product/${this.props.data.sku}`
         return (
-
-            <Card border="secondary" style={{ width: '18rem', margin: '15px' }}>
-
+            <Col sm={3}>
+                <Row className="justify-content-center">
+            <Card border="secondary" style={{ width: '18rem', margin: '5px' }}>
                 <Link to={path}><Card.Img variant="top" style={{height: '220px'}} src={pic} /></Link>
                 <Card.Header>
                     <Container>
@@ -55,7 +55,8 @@ class GridProduct extends Component {
 
                 </Card.Body>
             </Card>
-
+            </Row>
+            </Col>
 
         )
     }

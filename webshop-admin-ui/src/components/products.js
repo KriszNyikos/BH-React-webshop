@@ -24,7 +24,7 @@ export default class Products extends React.Component {
             .catch((error) => {
                 setTimeout(() => {
                     this.setState({ dataNotLoaded: true })
-                }, 2000)
+                }, 1000)
             })
     }
     render() {

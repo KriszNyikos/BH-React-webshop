@@ -7,7 +7,7 @@ class Repository {
   async productsAll() {
     const prods = new Promise((resolve, reject) => {
       db.serialize(function () {
-        db.all("SELECT p.sku, p.name, p.price, i.quantity, i.warn_at FROM products p LEFT JOIN inventory i ON p.sku = i.sku", (err, results) => {
+        db.all("SELECT p.sku, p.name, p.price, i.quantity, i.warn_at, p.hlighted FROM products p LEFT JOIN inventory i ON p.sku = i.sku", (err, results) => {
           if (err) {
             // console.log(err)
             reject(err)
@@ -51,7 +51,7 @@ class Repository {
   productBySku(sku) {
     return new Promise((resolve, reject) => {
       db.serialize(function () {
-        let sql = `SELECT sku, name, price, description, specs FROM products WHERE sku = '${sku}'`
+        let sql = `SELECT sku, name, price, description, specs, hlighted FROM products WHERE sku = '${sku}'`
         db.all(sql, (err, results) => {
           if (err) {
             console.log(err)
@@ -77,17 +77,18 @@ class Repository {
   }
 
   updateProductDetails(product) {
-    const { sku, name, price, description, specs } = product
-    console.log(sku, name, price, description, specs)
+    const { sku, name, price, description, specs, hlighted } = product
+    console.log('To server: ',sku, name, price, description, specs, hlighted)
 
     db.serialize(function () {
       let sql = `UPDATE products 
                     SET name = ?,
                     price = ?,
                     description = ?,
-                    specs = ?
+                    specs = ?,
+                    hlighted = ?
                     WHERE sku = ? `
-      let params = [name, price, description, specs, sku]
+      let params = [name, price, description, specs, hlighted, sku]
       db.run(sql, params)
     })
   }
