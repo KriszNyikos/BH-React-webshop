@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Button, Container } from 'react-bootstrap'
+import { Form, Button, Container, Alert } from 'react-bootstrap'
 
 
 export default class OrderForm extends Component {
@@ -9,6 +9,7 @@ export default class OrderForm extends Component {
             this.name = React.createRef();
             this.email = React.createRef();
             this.address = React.createRef();
+            this.state={valid: true}
 
         }
 
@@ -28,10 +29,13 @@ export default class OrderForm extends Component {
                 this.props.order({name, email, address})
                return
             }
+            this.setState({valid: false})
             errMsg.innerText = `Areas required: ${errors.join(', ')}`
         }
 
     render() {
+        let errStyle = {display: "none" }
+        if(!this.state.valid) errStyle = {}
         return (
             <Container>
                 <Form.Group>
@@ -48,7 +52,7 @@ export default class OrderForm extends Component {
                     <Form.Label>Address</Form.Label>
                     <Form.Control type="text" placeholder="Postal/City/Street/Number" ref={this.address}/>
                 </Form.Group>
-                <div style={{display: "hidden"}} id="error"></div>
+               <Alert variant='danger' style={errStyle} id="error"></Alert>
                 <Button onClick={() => this.validate()} variant="primary">
                     Order
                 </Button>

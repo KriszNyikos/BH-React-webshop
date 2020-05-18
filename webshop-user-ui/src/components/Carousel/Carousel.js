@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-import { Carousel } from 'react-bootstrap'
+import { Carousel, Row, Col } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import {Link} from 'react-router-dom'
 
 
 
 const mapStateToProps = (state, props) => {
-  const {sku} = props
   const { products, pictures } = state.cartReducer
   const highLighted = products.filter(p => p.hlighted)
   return { highLighted, pictures }
@@ -27,22 +26,28 @@ class Offering extends Component {
 
   render() {
     return (
-      <Carousel>
-        {this.props.highLighted.map(product => {
+      <Row className="justify-content-center">
+        <Col sm={10}>
+      <Carousel style={{borderRadius: '10px'}} >
+        {this.props.highLighted.map(product => 
+        {
           const path = `/product/${product.sku}`
           return (
-            <Carousel.Item style={{ height: '300px' }}>
+            <Carousel.Item style={{ height: '300px'}}>
               <img
                 className="d-block w-100"
                 src={this.getpath(product.sku)}/>
               <Carousel.Caption>
                 <h3>{product.name}</h3>
+                <p>{product.description}</p>
                 <Link to={path}>Link to product</Link>
               </Carousel.Caption>
             </Carousel.Item>
           )
         })}
       </Carousel>
+      </Col>
+      </Row>
     )
   }
 }

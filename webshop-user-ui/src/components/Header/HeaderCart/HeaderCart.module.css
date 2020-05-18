@@ -1,11 +1,21 @@
 .cartBody{
-    border: 1px solid black
+    border: 1px solid black;
+    border-radius: 3px;
+    padding: 10px
 }
 
 .cartInfos{
     display: none
+
 }
 
 .cartBody:hover .cartInfos{
     display: block;
+    position: absolute;
+    z-index: 3;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 3px;
+    width: 250px;
+    padding: 15px
 }

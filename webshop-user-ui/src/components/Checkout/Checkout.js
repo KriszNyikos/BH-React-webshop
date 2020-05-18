@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Container, Row, Col} from 'react-bootstrap'
 import { connect } from 'react-redux';
-import CartSummary from './CartSummary'
+import CheckoutSummary from './CheckoutSummary/CheckoutSummary'
 import OrderForm from './OrderForm'
 
 
@@ -44,7 +44,7 @@ class Checkout extends Component{
         return(
             <Container>
                 <Row >   
-                   <Col> <CartSummary cart={this.props.cart}/></Col> 
+                   <Col> <CheckoutSummary cart={this.props.cart}/></Col> 
                    <Col> <OrderForm order={this.order}/> </Col> 
                 </Row>
             </Container>

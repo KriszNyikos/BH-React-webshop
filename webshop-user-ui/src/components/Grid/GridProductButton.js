@@ -23,10 +23,10 @@ class GridProductButton extends Component {
 
     render() {
         const { sku, quantity } = this.props
-        const removeButton = <Button variant="outline-secondary" onClick={() => this.removeItem({ sku })}>Remove Item</Button>
+        const removeButton = <Button variant="secondary" size="sm" onClick={() => this.removeItem({ sku })}>Remove Item</Button>
 
         const addButton = (text) => {
-            return <Button variant="outline-primary" onClick={() => this.buyItem({ sku })}><div>{text}</div></Button>
+            return <Button variant="primary" size="sm" onClick={() => this.buyItem({ sku })}><div>{text}</div></Button>
         }
 
         const addText = (this.props.quantity != 0  && this.props.cartInfo) ? 'Add another one' : 'Add new one'
