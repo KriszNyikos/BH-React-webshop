@@ -17,7 +17,7 @@ class HeaderCart extends Component {
 
         const total = this.props.cart.reduce((accumulator, currentValue) => accumulator + (currentValue.price * currentValue.quantity), 0)
 
-        if (this.props.cart.length === 0) return (<div> Cart is empty <img style={{ height: "40px" }} src={cart} alt="logo" /> </div>)
+        if (this.props.cart.length === 0) return (<Col sm={2}> <div  className={styles.cartBody}> Cart is empty <img style={{ height: "40px" }} src={cart} alt="logo" /></div> </Col>)
 
         return (
              <Col sm={2}>

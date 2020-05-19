@@ -20,10 +20,20 @@ class Gallery extends Component {
         super(props)
         this.state = {bigPixIndex: (this.props.primary === -1) ? 0 : this.props.primary }
         this.picChanger = this.picChanger.bind(this)
+        this.picObjCreator = this.picObjCreator.bind(this)
     }
 
     picChanger(index){
         this.setState({bigPixIndex : index})
+    }
+
+    picObjCreator(){
+        let pics = this.props.picArr.map((p, index) => {
+            return {...p, index}
+        })
+
+        return pics
+
     }
 
     render() {
@@ -35,7 +45,7 @@ class Gallery extends Component {
                         <Image style={{height: "300px", width: '500px'}} src={imgPath} rounded />
                 </Row>
                 <Row>
-                    <Thumbnails picChanger={this.picChanger} pictures={this.props.picArr}/>
+                    <Thumbnails picChanger={this.picChanger} pictures={this.picObjCreator()}/>
                 </Row>
             </Container>
         )

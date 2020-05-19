@@ -18,7 +18,7 @@ class ProductInfo extends Component {
                         <Form.Label>Product description:</Form.Label>
                         <Form.Control as="textarea" disabled rows="3" value={this.props.product.description}/>
                 </Row>
-                <Row className='justify-content-end'>
+                <Row className='justify-content-end mt-5'>
                     <Button onClick={() => this.props.dispatch({ type: 'ADD_TO_CART', payload: { sku: this.props.product.sku } })} >Add to cart</Button>
                 </Row>
             </Container>

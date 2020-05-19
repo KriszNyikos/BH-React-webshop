@@ -29,7 +29,7 @@ class GridProduct extends Component {
         const pic = `http://localhost:3050${imgPath}`
         const path = `/product/${this.props.data.sku}`
         return (
-            <Col sm={3}>
+            <Col sm={4}>
                 <Row className="justify-content-center">
             <Card border="secondary" style={{ width: '18rem', margin: '5px' }}>
                 <Link to={path}><Card.Img variant="top" style={{height: '220px'}} src={pic} /></Link>

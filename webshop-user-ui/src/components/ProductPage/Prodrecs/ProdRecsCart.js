@@ -23,15 +23,13 @@ class ProdRecsCart extends Component {
         const path = `/product/${this.props.data.sku}`
        const picPath = `http://localhost:3050${this.props.picObj.imagePath}` 
         return (
-            <Card style={{ width: '5rem', margin: '15px' }}>
-                <Link to={path}><Card.Img variant="top" src={picPath}/></Link>
+            <Card style={{ width: '10rem', margin: '15px' }}>
+                <Link to={path}><Card.Img variant="top" style={{height: "100px"}}  src={picPath}/></Link>
                 <Card.Body>
                     <Card.Text>
                         <Container>
                             <Row className='justify-content-between'>
                             <Link to={path}>  <b>{this.props.data.name}</b></Link>
-                                <div>{this.props.data.sku}</div>
-                                <div> Price: {this.props.data.price}</div>
                             </Row>
                         </Container>
                     </Card.Text>
