@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
     const{sku} = props
     const {pictures} = state.cartReducer
     const picArr = pictures.filter(p => p.sku === sku)
-    const primary = pictures.findIndex(p=> p.isPrimary === 1)
+    const primary = picArr.findIndex(p=> p.isPrimary === 1)
     return { picArr, primary }
 }
 
@@ -26,6 +26,7 @@ class Gallery extends Component {
     picChanger(index){
         this.setState({bigPixIndex : index})
     }
+
 
     picObjCreator(){
         let pics = this.props.picArr.map((p, index) => {

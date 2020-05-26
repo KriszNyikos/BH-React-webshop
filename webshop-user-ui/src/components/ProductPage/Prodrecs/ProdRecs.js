@@ -26,7 +26,7 @@ class ProdRecs extends Component {
     viewFilter() {
         let arr = this.state.products.slice(this.state.startIndex, this.state.startIndex + 4)
 
-        if (arr.length < 3) {
+        if (arr.length < 4) {
 
             if (Math.sign(this.state.startIndex) === -1) {
                 let arr = this.state.products.slice(this.state.startIndex)
@@ -49,7 +49,7 @@ class ProdRecs extends Component {
                 return this.setState({ startIndex: this.state.startIndex += 1 })
 
             case 'prev':
-                if (this.state.startIndex < (this.state.products.length * - 1) + 2) return (this.setState({ startIndex: 0 }))
+                if (this.state.startIndex < (this.state.products.length * - 1) + 1) return (this.setState({ startIndex: 0 }))
                 return this.setState({ startIndex: this.state.startIndex -= 1 })
 
             default:

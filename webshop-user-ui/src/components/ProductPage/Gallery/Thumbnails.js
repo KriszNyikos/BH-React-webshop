@@ -17,9 +17,6 @@ export default class Thumbnails extends Component {
         this.viewFilter = this.viewFilter.bind(this)
     }
 
-    componentDidMount(){
-        this.changeIndex(0)
-    }
 
     changeIndex(index) {
         this.props.picChanger(index)
@@ -48,7 +45,7 @@ export default class Thumbnails extends Component {
     stepper(direction) {
         switch (direction) {
             case 'next':
-                if (this.state.startIndex > (this.state.pictures.length - 1) - 1) return (this.setState({ startIndex: 0 }))
+                if (this.state.startIndex > (this.state.pictures.length - 1) - 2) return (this.setState({ startIndex: 0 }))
                 return this.setState({ startIndex: this.state.startIndex += 1 })
 
             case 'prev':
@@ -74,8 +71,6 @@ export default class Thumbnails extends Component {
                     <Col>
                         <Row className="align-items-center">
                             {
-
-
                                 array.map((p, index) => {
                                     const imgPath = `http://localhost:3050${p.imagePath}`
                                     return (
@@ -84,8 +79,6 @@ export default class Thumbnails extends Component {
                                         </Col>
                                     )
                                 })
-
-
                             }
                         </Row>
                     </Col>
